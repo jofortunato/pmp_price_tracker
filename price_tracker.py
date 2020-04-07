@@ -5,12 +5,12 @@ import random
 
 # Reads input data file and returns corresponding variable
 def get_input_data(file_name, var_name):
-    f = open(file_name, "r")
-    for line in f:
-        words = line.split(sep="=")
-        if words[0].strip() == var_name:
-            return words[1].strip()
-    return -1
+    with open(file_name, "r") as f:
+        for line in f:
+            words = line.split(sep="=")
+            if words[0].strip() == var_name:
+                return words[1].strip()
+        return -1
 
 # Scrapes website and returns current price of the course
 def price_scraper(url):
@@ -36,9 +36,9 @@ def min_price_check(current_price):
     if min_price == -1 or current_price < min_price:
         # Updates data file to add line for min_price_check
         return True
-    elif current_price = min_price:
+    elif current_price == min_price:
         return True
-    else
+    else:
         return False
 
-print(price_scraper(get_input_data("input_data","URL")))
+print(get_input_data("input_data","URL"))
