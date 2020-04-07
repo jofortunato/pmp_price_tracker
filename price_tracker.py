@@ -28,4 +28,17 @@ def price_scraper(url):
 
     return price
 
+# Checks if current price is smaller or close to historic minimum price
+# Updates data file if needed
+def min_price_check(current_price):
+    min_price = float(get_input_data("input_data","MIN_PRICE"))
+
+    if min_price == -1 or current_price < min_price:
+        # Updates data file to add line for min_price_check
+        return True
+    elif current_price = min_price:
+        return True
+    else
+        return False
+
 print(price_scraper(get_input_data("input_data","URL")))
