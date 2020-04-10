@@ -1,7 +1,7 @@
 #!/home/joaofortunato/.virtualenvs/pmp_price_tracker/bin/python3
 import requests
 from bs4 import BeautifulSoup as bs
-import random
+import smtplib, ssl
 
 # Reads input data file and returns corresponding variable
 def get_input_data(file_name, var_name):
@@ -40,5 +40,15 @@ def min_price_check(current_price):
         return True
     else:
         return False
+
+def send_email_alert(sender_email, recipient_email, password, message):
+    port = 465 # For SSL
+
+    # Create a secure SSL context
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, recipient_email, message)
 
 print(get_input_data("input_data","URL"))
