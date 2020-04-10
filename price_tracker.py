@@ -40,7 +40,7 @@ def min_price_check(current_price):
         return True
     else:
         return False
-
+#Given the receiver, sender emails and a message it sends an email
 def send_email_alert(sender_email, recipient_email, password, message):
     port = 465 # For SSL
 
@@ -52,3 +52,8 @@ def send_email_alert(sender_email, recipient_email, password, message):
         server.sendmail(sender_email, recipient_email, message)
 
 print(get_input_data("input_data","URL"))
+
+def main()
+
+if __name__ = "__main__":
+    main()
