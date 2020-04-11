@@ -50,10 +50,22 @@ def send_email_alert(sender_email, recipient_email, password, message):
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, recipient_email, message)
+    return
 
-print(get_input_data("input_data","URL"))
+def main():
+    data_file = "input_data"
 
-def main()
+    url = get_input_data(data_file,"URL")
+    current_price = price_scraper(url)
 
-if __name__ = "__main__":
+    if min_price_check(current_price):
+        sender_email = get_input_data(data_file, "SENDER_EMAIL")
+        recipient_email = get_input_data(data_file, "RECIPIENT_EMAIL")
+        password = get_input_data(data_file, "PASSWORD")
+
+        message = "Subject: PMP Course - Price Altert \n\n Current course price is " +\
+        str(current_price) + "."
+        send_email_alert(sender_email, recipient_email, password, message)
+
+if __name__ == "__main__":
     main()
