@@ -30,17 +30,38 @@ def price_scraper(url):
 
 # Checks if current price is smaller or close to historic minimum price
 # Updates data file if needed
-def min_price_check(current_price):
+def min_price_check(current_price, data_file):
     min_price = float(get_input_data("input_data","MIN_PRICE"))
 
     if min_price == -1 or current_price < min_price:
-        # Updates data file to add line for min_price_check
+        update_data_file(data_file, "MIN_PRICE", str(current_price))
         return True
     elif current_price == min_price:
         return True
     else:
         return False
-#Given the receiver, sender emails and a message it sends an email
+
+# Updates data file for a certain data type
+def update_data_file(file_name, var_name, content):
+    update_file_content = ""
+    changed = 0
+
+    with open(file_name, "r") as f:
+        for line in f:
+            words = line.split(sep="=")
+            if words[0].strip() == var_name:
+                new_line = line.replace(words[1].strip(), content)
+                changed = 1
+            else:
+                new_line = line
+            update_file_content += new_line
+
+    if changed != 1:
+        update_file_content += var_name + " = " + content
+    with open(file_name, "w") as f:
+        f.write(update_file_content)
+
+# Given the receiver, sender emails and a message it sends an email
 def send_email_alert(sender_email, recipient_email, password, message):
     port = 465 # For SSL
 
@@ -50,15 +71,13 @@ def send_email_alert(sender_email, recipient_email, password, message):
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, recipient_email, message)
-    return
 
 def main():
     data_file = "input_data"
-
     url = get_input_data(data_file,"URL")
     current_price = price_scraper(url)
 
-    if min_price_check(current_price):
+    if min_price_check(current_price, data_file):
         sender_email = get_input_data(data_file, "SENDER_EMAIL")
         recipient_email = get_input_data(data_file, "RECIPIENT_EMAIL")
         password = get_input_data(data_file, "PASSWORD")
